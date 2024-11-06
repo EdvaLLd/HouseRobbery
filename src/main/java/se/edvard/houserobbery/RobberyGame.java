@@ -17,10 +17,11 @@ public class RobberyGame {
         currentRoom = houseSetup();
         while(running && resident.isConcious())
         {
-            System.out.println("\n\n\n");
             System.out.println(currentRoom.getRoomDescExtended());
             userInput = scanner.nextLine();
+            System.out.println("\n\n\n");
             handleInput(userInput);
+            System.out.println();
         }
     }
 
