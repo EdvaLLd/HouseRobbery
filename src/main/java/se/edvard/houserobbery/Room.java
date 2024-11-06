@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Room {
+
     private ArrayList<Item> itemsInRoom = new ArrayList<>();
     private String roomName;
     private String roomDesc;
@@ -21,18 +22,15 @@ public class Room {
     {
         return roomName;
     }
-    public String getRoomDesc()
-    {
-        return roomDesc;
-    }
 
-    public void command(String command, Resident r, Burglar b, RobberyGame game)
+    public void command(String command, Resident r, RobberyGame game)
     {
         for (Item item : itemsInRoom)
         {
             if(command.equalsIgnoreCase(item.getName()))
             {
-                item.use(r);
+
+                removeItem((Item)(item.use(r)));
                 break;
             }
         }
@@ -48,8 +46,8 @@ public class Room {
     //returnerar beskrivningen av alla connections och items
     public String getRoomDescExtended()
     {
-        String string = roomDesc;
-        if(itemsInRoom.size() > 0)
+        String string = roomDesc + "\n";
+        if(!itemsInRoom.isEmpty())
         {
             string += "\nI rummet finns det: ";
         }
@@ -57,20 +55,41 @@ public class Room {
         {
             string += "\n" + i.getName();
         }
-        if(connections.size() > 0)
+        if(!itemsInRoom.isEmpty())
+        {
+            string +=  "\n";
+        }
+        if(!connections.isEmpty())
         {
             string += "\nHärifrån kan du gå till: ";
         }
         for (String key : connections.keySet()) {
-            string += "\n" + connections.get(key).getRoomDesc();
+            string += "\n" + connections.get(key).getRoomName();
         }
 
         return string;
     }
 
+    public void addItem(Item i)
+    {
+        itemsInRoom.add(i);
+    }
+
+    public void removeItem(Item i)
+    {
+        itemsInRoom.remove(i);
+    }
+
     public void addConnection(Room room)
     {
+        if(room != this)
+        {
+            connections.put(room.getRoomName(), room);
+            room.addOneWayConnection(this);
+        }
+    }
+    public void addOneWayConnection(Room room)
+    {
         connections.put(room.getRoomName(), room);
-        room.addConnection(this);
     }
 }

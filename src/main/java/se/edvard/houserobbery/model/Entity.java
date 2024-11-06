@@ -1,9 +1,12 @@
 package se.edvard.houserobbery.model;
 
+import se.edvard.houserobbery.Weapon;
+
 public abstract class Entity {
-    private String role;
-    private int damage;
+    private final String role;
+    private final int damage;
     private int health;
+    private Weapon weapon = null;
 
     public Entity(String role, int damage, int health)
     {
@@ -15,18 +18,10 @@ public abstract class Entity {
     {
         return role;
     }
-    public int getDamage()
-    {
-        return damage;
-    }
-    public int getHealth()
-    {
-        return health;
-    }
 
     public void punch(Entity toPunch)
     {
-        toPunch.takeHit(this.damage);
+        toPunch.takeHit(weapon != null? this.damage + weapon.getDamage() : this.damage);
     }
 
     public void takeHit(int damage)
@@ -39,8 +34,15 @@ public abstract class Entity {
         return health > 0;
     }
 
-    public void addDamage(int damage)
+    public void addWeapon(Weapon w)
     {
-        //tänker att jag struntar i den här och kör med weapon istället
+        if(weapon != null)
+        {
+            System.out.println("Du bytte " + weapon.getName() + " ("+weapon.getDamage()+" atk) mot " + w + " ("+w.getDamage()+" atk)");
+        }
+        else {
+            System.out.println("Du tog upp " + w.getName() + " ("+w.getDamage()+" atk)");
+        }
+        weapon = w;
     }
 }

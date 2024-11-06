@@ -1,9 +1,7 @@
 package se.edvard.houserobbery;
 
-import se.edvard.houserobbery.model.Resident;
-
-public class Item {
-    private String name;
+public abstract class Item implements ItemUse {
+    private final String name;
 
     public Item(String name)
     {
@@ -13,10 +11,5 @@ public class Item {
     public String getName()
     {
         return name;
-    }
-
-    public void use(Resident r)
-    {
-
     }
 }
