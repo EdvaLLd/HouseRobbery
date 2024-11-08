@@ -3,6 +3,7 @@ package se.edvard.houserobbery.model;
 import se.edvard.houserobbery.Weapon;
 
 public abstract class Entity {
+
     private final String role;
     private final int damage;
     private int health;
@@ -19,9 +20,15 @@ public abstract class Entity {
         return role;
     }
 
+    public int getHealth()
+    {
+        return health;
+    }
+
+    //om den här entityn har ett vapen så läggs dess skada till på skadan
     public void punch(Entity toPunch)
     {
-        toPunch.takeHit(weapon != null? this.damage + weapon.getDamage() : this.damage);
+        toPunch.takeHit(weapon != null ? this.damage + weapon.getDamage() : this.damage);
     }
 
     public void takeHit(int damage)
@@ -29,11 +36,12 @@ public abstract class Entity {
         health -= damage;
     }
 
-    public boolean isConcious()
+    public boolean isConscious()
     {
         return health > 0;
     }
 
+    //om man har ett vapen så byts det ut (annan print) och vapnet equippas
     public void addWeapon(Weapon w)
     {
         if(weapon != null)

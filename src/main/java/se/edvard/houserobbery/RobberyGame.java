@@ -15,7 +15,7 @@ public class RobberyGame {
         Scanner scanner = new Scanner(System.in);
         String userInput;
         currentRoom = houseSetup();
-        while(running && resident.isConcious())
+        while(running && resident.isConscious())
         {
             System.out.println(currentRoom.getRoomDescExtended());
             userInput = scanner.nextLine();
@@ -25,11 +25,13 @@ public class RobberyGame {
         }
     }
 
+    //flyttar användaren till ett annat rum
     public void moveToRoom(Room room)
     {
         currentRoom = room;
     }
 
+    //hanterar input genom att ha ett antal standardvärden och sen alla kommandon som finns i just det rummet
     private void handleInput(String input)
     {
         switch (input)
@@ -61,7 +63,7 @@ public class RobberyGame {
             @Override
             public ItemUse use(Resident r) {
                 Fight.fight(resident, burglar);
-                if(!burglar.isConcious())
+                if(!burglar.isConscious())
                 {
                     finalRoom.addItem(new DecorativeItem("Knockad inbrottstjuv", "Den avsvimmade inbrottstjuven, gå och ring polisen!"));
                     return this;
@@ -81,7 +83,7 @@ public class RobberyGame {
         Item phone = new Item("Telefon") {
             @Override
             public ItemUse use(Resident r) {
-                if(!burglar.isConcious())
+                if(!burglar.isConscious())
                 {
                     System.out.println("Du ringer till polisen och de kommer och arresterar inbrottstjuven");
                     running = false;
@@ -93,6 +95,21 @@ public class RobberyGame {
                 return null;
             }
         };
+
+        //hade kunnat använda den här, men är mycket mer svårläst
+        /*ItemUse phone = r -> {
+            if(!burglar.isConscious())
+            {
+                System.out.println("Du ringer till polisen och de kommer och arresterar inbrottstjuven");
+                running = false;
+            }
+            else
+            {
+                System.out.println("Du vågar inte ringa polisen medan tjuven driver runt i huset");
+            }
+            return null;
+        };*/
+
         room.addItem(phone);
         room.addItem(new DecorativeItem("Laptop","Du kan inte arbeta nu, ta hand om tjuven först"));
         entryRoom.addConnection(room);

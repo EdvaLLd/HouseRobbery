@@ -7,9 +7,11 @@ import java.util.HashMap;
 
 public class Room {
 
+    //alla objekt (weapon, decorative item, item) som finns i rummet
     private ArrayList<Item> itemsInRoom = new ArrayList<>();
     private String roomName;
     private String roomDesc;
+    //till vilka rum man kan gå från det här rummet
     private HashMap<String, Room> connections = new HashMap<>();
 
     public Room(String roomName, String roomDesc)
@@ -23,13 +25,14 @@ public class Room {
         return roomName;
     }
 
+    //tar det användaren skrev in och kollar om det matchar namnet på något av objekten/kopplingarna i rummet
     public void command(String command, Resident r, RobberyGame game)
     {
         for (Item item : itemsInRoom)
         {
             if(command.equalsIgnoreCase(item.getName()))
             {
-
+                //kör itemens use-metod och tar bort det som returneras från rummet, vilket antingen är itemen eller null
                 removeItem((Item)(item.use(r)));
                 break;
             }
@@ -40,7 +43,6 @@ public class Room {
                 game.moveToRoom(connections.get(key));
             }
         }
-
     }
 
     //returnerar beskrivningen av alla connections och items
@@ -80,6 +82,7 @@ public class Room {
         itemsInRoom.remove(i);
     }
 
+    //lägger till en tvåvägskoppling mellan det här rummet och ett annat
     public void addConnection(Room room)
     {
         if(room != this)

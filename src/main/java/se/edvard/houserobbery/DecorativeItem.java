@@ -2,6 +2,7 @@ package se.edvard.houserobbery;
 
 import se.edvard.houserobbery.model.Resident;
 
+//extendar Item och är ett objekt som bara skriver ut en text och som inte kan tas upp/förvinner
 public class DecorativeItem extends Item{
     String desc;
 
